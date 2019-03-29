@@ -1,4 +1,6 @@
-FROM registry.centos.org/che-stacks/centos-stack-baseEXPOSE 8443
+FROM registry.centos.org/che-stacks/centos-stack-base
+
+EXPOSE 8443
 
 USER root
 
