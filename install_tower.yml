@@ -1,0 +1,31 @@
+
+- hosts: localhost
+  gather_facts: False
+
+  vars:
+    admin_password: R3dh@t12
+
+  tasks:
+    - name: download latest tower
+      unarchive:
+        src: http://releases.ansible.com/ansible-tower/setup/ansible-tower-setup-latest.tar.gz
+        dest: /tmp/
+        remote_src: yes
+
+    - name: tower admin passwords
+      ini_file:
+        path: "/tmp/ansible-tower-setup-{{ ansible_tower_version }}/inventory"
+        section: all:vars
+        option: "{{ item }}"
+        value: "{{ admin_password }}"
+      with_items:
+        - admin_password
+        - pg_password
+
+    - name: tower rabbitmq password
+      ini_file:
+        path: "/tmp/ansible-tower-setup-{{ ansible_tower_version }}/inventory"
+        section: all:vars
+        option: rabbitmq_password
+        value: "{{ admin_password }}"
+

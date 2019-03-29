@@ -13,4 +13,8 @@ RUN yum -y install epel-release && \
 
 RUN pip install --no-cache --no-cache-dir --upgrade ansible boto boto3 botocore f5-sdk pyapi-gitlab netaddr hvac ansible-tower-cli
 
+COPY install_tower /tmp/
+
+RUN ansible-playbook install_tower.yml
+
 RUN echo "'PS1='\\w\\$ '" >> /root/.bashrc
