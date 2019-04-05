@@ -1,0 +1,68 @@
+{
+  "defaultEnv": "default",
+  "environments": {
+    "default": {
+      "machines": {
+        "dev-machine": {
+          "attributes": {
+            "memoryLimitBytes": "536870912"
+          },
+          "servers": {
+            "8080/tcp": {
+              "port": "8080",
+              "attributes": {},
+              "protocol": "http"
+            },
+            "8000/tcp": {
+              "port": "8000",
+              "attributes": {},
+              "protocol": "http"
+            }
+          },
+          "volumes": {},
+          "installers": [
+            "org.eclipse.che.exec",
+            "org.eclipse.che.terminal",
+            "org.eclipse.che.ws-agent",
+            "org.eclipse.che.ls.python"
+          ],
+          "env": {}
+        }
+      },
+      "recipe": {
+        "type": "dockerimage",
+        "content": "quay.io/keithresar/centos-stack-ansible"
+      }
+    }
+  },
+  "projects": [
+    {
+      "name": "ansibleallthethings-workshop",
+      "attributes": {},
+      "source": {
+        "location": "https://github.com/keithresar/ansibleallthethings-workshop.git",
+        "type": "git",
+        "parameters": {}
+      },
+      "path": "/ansibleallthethings-workshop",
+      "description": "ansibleallthethings-workshop",
+      "problems": [],
+      "mixins": []
+    }
+  ],
+  "name": "ansible-tpl",
+  "attributes": {
+    "persistVolumes": "true"
+  },
+  "commands": [
+    {
+      "commandLine": "cd ${current.project.path} && sudo virtualenv /env && sudo pip install -r requirements.txt && python main.py",
+      "name": "run",
+      "attributes": {
+        "goal": "Run",
+        "previewUrl": "${server.8080/tcp}"
+      },
+      "type": "custom"
+    }
+  ]
+}
